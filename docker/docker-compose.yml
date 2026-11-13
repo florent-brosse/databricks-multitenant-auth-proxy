@@ -1,0 +1,48 @@
+name: databricks-token-federation-proxy
+
+# Run from this directory so the adjacent .env is picked up automatically:
+#   cd docker && cp .env.example .env && $EDITOR .env && docker compose up --build
+
+services:
+  # The token-federation proxy. Internal only — never published to the host;
+  # all external traffic comes through Caddy.
+  proxy:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: tfp-proxy:latest
+    restart: unless-stopped
+    environment:
+      TFP_PORT: "9090"
+      # Required — the workspace every request is forwarded to.
+      TFP_DBX_WORKSPACE: ${TFP_DBX_WORKSPACE:?set TFP_DBX_WORKSPACE in docker/.env}
+    expose:
+      - "9090"
+    networks: [tfp]
+
+  # TLS-terminating reverse proxy / edge.
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      proxy:
+        condition: service_healthy
+    environment:
+      TFP_SITE_ADDRESS: ${TFP_SITE_ADDRESS:-localhost}
+    ports:
+      - "443:443"       # HTTPS (HTTP/2)
+      - "443:443/udp"   # HTTP/3 (QUIC)
+      - "80:80"         # HTTP->HTTPS redirect + ACME challenge (real domains)
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data       # certs + local CA live here (persist across restarts)
+      - caddy_config:/config
+    networks: [tfp]
+
+networks:
+  tfp:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:

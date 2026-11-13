@@ -1,0 +1,32 @@
+# Secrets / generated keys
+proxy/keys/
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.poc-venv/
+
+# JDBC test artifacts (downloaded driver + compiled classes)
+*.jar
+*.class
+
+# Docker local env (contains workspace URL / config)
+docker/.env
+
+# OS junk
+.DS_Store
+
+# Logs
+*.log
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Local state of demo scripts
+custom-claims/token_exchange_state.json
