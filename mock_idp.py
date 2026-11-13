@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Mock CIAM IdP for the Token Federation PoC.
+Mock CIAM IdP (local testing only).
 
 Stands in for the customer's real Customer Identity Access Management
 provider (Auth0, Okta CIC, AWS Cognito, Azure AD B2C, etc.) Provides

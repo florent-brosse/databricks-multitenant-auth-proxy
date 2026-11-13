@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """
-Token Federation Proxy, "custom identity claim" variant.
+Transparent auth proxy for multi-tenant apps on Databricks, using OAuth custom identity claims.
 
-Same transparent forwarder as proxy/proxy.py, with one change in WHO the
-Databricks token belongs to:
+Who the Databricks token belongs to:
 
   before: CIAM JWT --RFC 8693--> token of a Databricks USER (1 user per end user, SCIM)
   now:    CIAM JWT --validated by the proxy--> token of ONE service principal

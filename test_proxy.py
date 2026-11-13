@@ -1,5 +1,5 @@
 """End-to-end through proxy_claims.py: client sends a CIAM JWT, the proxy validates it and sets the claim.
-Run first:  python ../proxy/mock_idp.py --port 8080 --issuer http://localhost:8080 --audience claims-proxy
+Run first:  python mock_idp.py --port 8080 --issuer http://localhost:8080 --audience claims-proxy
             (env for proxy_claims.py: see its docstring; CIAM_ISSUER=http://localhost:8080 CIAM_AUDIENCE=claims-proxy)
 Env: DATABRICKS_HOST, WAREHOUSE_ID, CLAIMS_SCHEMA, PROXY_PORT (default 9443)."""
 import base64, json, os, ssl, urllib.parse, urllib.request

@@ -13,8 +13,7 @@ Usage: python token_exchange.py setup|test
 Env:   DATABRICKS_HOST, WAREHOUSE_ID, CLAIMS_SCHEMA, WS_PROFILE, ACCOUNT_PROFILE (Databricks CLI profiles)
 """
 import json, os, subprocess, sys, time, urllib.error, urllib.parse, urllib.request
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "proxy"))
-import mock_idp                                    # generates/loads proxy/keys/rsa_key.pem (git-ignored)
+import mock_idp                                    # generates/loads keys/rsa_key.pem (git-ignored)
 import jwt as pyjwt
 from cryptography.hazmat.primitives.asymmetric import rsa
 from common import HOST, SCHEMA, rest_sql, jwt_payload
